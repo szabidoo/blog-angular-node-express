@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+a{
+    cursor: pointer;
+    text-decoration: none;
+   
+}
+a:visited {
+    color: inherit;
+    text-decoration: none;
+
+}

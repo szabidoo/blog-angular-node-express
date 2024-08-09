@@ -1,0 +1,39 @@
+.home{
+    justify-content: center;
+    display: flex;
+}
+.newpost{
+    /*Positioning, align*/
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    width: 20%;
+    height: 15vh;
+    justify-content: center;
+
+    /*Glass effect*/
+    background: rgba(150, 150, 150, 0.264);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.1px);
+    -webkit-backdrop-filter: blur(5.1px);
+    border: 1px solid rgba(150, 150, 150, 0.264);
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.057);
+    transition: border-color 0.3s ease-in-out;
+}
+
+.newpost:hover {
+    border-color: blue;
+}
+
+.addimg{
+    width: 20%;
+    height: 10vh;
+    margin-right: 130px;
+    background: rgba(255, 255, 255, 0.523);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 10px;
+    border: 1px solid rgba(150, 150, 150, 0.264);
+}

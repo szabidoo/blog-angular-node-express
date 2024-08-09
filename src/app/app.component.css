@@ -1,0 +1,56 @@
+.login{
+    display: flex;
+    justify-content: right;
+    margin-right: 30px;
+    margin-top: 20px;
+}
+
+.img{
+    padding-right: 10px;
+}
+
+
+.base {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    background: #f1f1f1;
+    z-index: -1;
+}
+
+nav.navbar {
+    position: fixed;
+    display: flex;
+    justify-content: center; /* Center the ul horizontally */
+    align-items: center; /* Center the ul vertically */
+    font-weight: bold;
+    width: 30%;
+    margin: 0;
+    background: rgba(208, 208, 208, 0.37);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    height: 30px;
+    z-index: 1000;
+    top: 10px;
+}
+
+ul {
+    display: flex;
+    justify-content: space-around; /* Space items around */
+    align-items: center; /* Center items vertically */
+    width: 100%; /* Ensure ul takes full width of nav */
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    display: flex;
+}
+.space{
+    height: 50px;
+}
