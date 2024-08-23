@@ -4,22 +4,26 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { AuthGuard } from '../auth.guard';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [HttpClientModule, FormsModule],
+  imports: [HttpClientModule, FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   providers: [ApiService, AuthService, AuthGuard]
 })
-export class LoginComponent  {
+export class LoginComponent {
+
 
   back_data: any[] = []
   loginData: any;
   username = '';
   password = '';
   active_user: string = '';
+  loginState = false;
+
 
   constructor(private apiService: ApiService, private authService: AuthService, private authGuard: AuthGuard) {}
 
@@ -35,6 +39,7 @@ export class LoginComponent  {
       if (response){
         sessionStorage.setItem("username", this.active_user)
         this.authService.login()
+        this.loginState = true
         this.authService.isLoggedIn()
       }
       console.log(this.active_user)

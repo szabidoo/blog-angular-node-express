@@ -15,6 +15,23 @@ const db = new sqlite3.Database('./users.db', sqlite3.OPEN_READWRITE, (err) => {
     console.log('Connected to the users database.');
 });
 
+
+//Connect to the POSTS DB
+const postDB = new sqlite3.Database('./posts.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err){
+        console.error(err.message);
+    }
+    console.log('Connectedd to the posts DB');
+})
+// Create a posts table
+const createPostDB = `CREATE TABLE IF NOT EXISTS posts(id INTEGER PRIMARY KEY, content TEXT)`;
+postDB.run(createPostDB, (err) => {
+    if (err) {
+        console.log("PostsDB table already exists.");
+    } else {
+        console.log("PostsDB table created.");
+    }
+});
 // Create a table
 const createDB = `CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, name TEXT, password TEXT)`;
 db.run(createDB, (err) => {
@@ -61,6 +78,21 @@ app.post('/api/data', (req, res) => {
         }
     });
 });
+
+app.get('/api/getposts', (req, res) => {
+    const query = 'SELECT content FROM posts';
+
+    postDB.all(query, [], (err, rows) => {
+        if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+        }
+        // Extract the content values from the rows
+        const contentList = rows.map(row => row.content);
+        res.json({ message: 'Success', data: contentList });
+    });
+});
+
 
 // Start the server
 app.listen(port, () => {

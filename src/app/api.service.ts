@@ -13,4 +13,12 @@ export class ApiService {
   sendData(data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/api/data`, {data}); // Update to the correct endpoint
   }
+
+  createPost(postData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/postdata`, {postData})
+  }
+
+  getPosts(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/api/getposts`)
+  }
 }

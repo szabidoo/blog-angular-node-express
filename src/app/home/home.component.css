@@ -1,39 +1,52 @@
-.home{
+.home {
+    display: flex;
     justify-content: center;
-    display: flex;
-}
-.newpost{
-    /*Positioning, align*/
-    margin-top: 40px;
-    display: flex;
     align-items: center;
-    width: 20%;
-    height: 15vh;
-    justify-content: center;
+    height: 50vh;
+    background-color: #f0f0f0;
+}
 
-    /*Glass effect*/
-    background: rgba(150, 150, 150, 0.264);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5.1px);
-    -webkit-backdrop-filter: blur(5.1px);
-    border: 1px solid rgba(150, 150, 150, 0.264);
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.057);
-    transition: border-color 0.3s ease-in-out;
+.newpost {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 600px; /* Smaller width */
+    height: 250px; /* Smaller height */
+    background-color: #fff;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: width 0.3s ease, height 0.3s ease; /* Added width and height transition */
 }
 
 .newpost:hover {
-    border-color: blue;
+    background-color: #e0e0e0;
 }
 
-.addimg{
-    width: 20%;
-    height: 10vh;
-    margin-right: 130px;
-    background: rgba(255, 255, 255, 0.523);
-    align-items: center;
-    justify-content: center;
+
+
+.addimg {
     display: flex;
-    border-radius: 10px;
-    border: 1px solid rgba(150, 150, 150, 0.264);
+    justify-content: center;
+    align-items: center;
+    font-size: 40px; /* Adjusted font size */
+    color: #ccc;
+    width: 100%; /* Ensure it takes full width */
+    height: 100%; /* Ensure it takes full height */
+}
+
+.addtext {
+    font-size: 18px; /* Adjusted font size */
+    color: #666;
+}
+
+.newPostEntry {
+    width: 500px; /* Larger width */
+    height: 40px; /* Added height */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: width 0.3s ease, height 0.3s ease; /* Added width and height transition */
 }
