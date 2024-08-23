@@ -15,7 +15,7 @@ export class ApiService {
   }
 
   createPost(postData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/api/postdata`, {postData})
+    return this.http.post<any>(`${this.apiUrl}/api/postdata`, {data: postData})
   }
 
   getPosts(): Observable<any>{

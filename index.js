@@ -1,11 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const port = 3000;
 let state = false;
-
 
 // Connect to the database
 const db = new sqlite3.Database('./users.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -15,14 +13,14 @@ const db = new sqlite3.Database('./users.db', sqlite3.OPEN_READWRITE, (err) => {
     console.log('Connected to the users database.');
 });
 
-
-//Connect to the POSTS DB
+// Connect to the POSTS DB
 const postDB = new sqlite3.Database('./posts.db', sqlite3.OPEN_READWRITE, (err) => {
-    if (err){
+    if (err) {
         console.error(err.message);
     }
-    console.log('Connectedd to the posts DB');
-})
+    console.log('Connected to the posts DB');
+});
+
 // Create a posts table
 const createPostDB = `CREATE TABLE IF NOT EXISTS posts(id INTEGER PRIMARY KEY, content TEXT)`;
 postDB.run(createPostDB, (err) => {
@@ -32,7 +30,8 @@ postDB.run(createPostDB, (err) => {
         console.log("PostsDB table created.");
     }
 });
-// Create a table
+
+// Create a users table
 const createDB = `CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, name TEXT, password TEXT)`;
 db.run(createDB, (err) => {
     if (err) {
@@ -43,13 +42,12 @@ db.run(createDB, (err) => {
 });
 
 app.use(cors());
-app.use(bodyParser.json()); // Use body-parser middleware to parse JSON data
+app.use(express.json()); // Use express.json() middleware to parse JSON data
 
 // GET endpoint to retrieve data from Angular app
 app.get('/api/data', (req, res) => {
     res.json({ message: 'Hello from Express!' });
 });
-
 
 // POST endpoint to receive data from Angular app, LOGIN!!!
 app.post('/api/data', (req, res) => {
@@ -79,6 +77,36 @@ app.post('/api/data', (req, res) => {
     });
 });
 
+
+//delete all empty posts
+postDB.run('DELETE FROM posts WHERE content IS NULL OR content = ""', (err) => {
+    if (err) {
+        console.error(err.message);
+    }
+    console.log('Deleted empty posts.');
+});
+
+app.post('/api/postdata', (req, res) => {
+    const postdata = req.body.data;
+    console.log(postdata);
+    const q = 'INSERT INTO posts(content) VALUES (?)';
+
+    if (postdata === '' || postdata === null || postdata === undefined) {
+        res.json({ message: `Success ${postdata}`, data: postdata });
+        return;
+    } else {
+        postDB.run(q, [postdata], function(err) { // Pass postdata as an array
+            if (err) {
+                res.status(400).json({ error: err.message });
+                return;
+            }
+            res.json({ message: `Success ${postdata}` });
+        });
+    }
+
+    console.log('Post Data:', postdata); // Log the post data
+});
+
 app.get('/api/getposts', (req, res) => {
     const query = 'SELECT content FROM posts';
 
@@ -93,9 +121,7 @@ app.get('/api/getposts', (req, res) => {
     });
 });
 
-
 // Start the server
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
-

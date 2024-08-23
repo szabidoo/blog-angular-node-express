@@ -1,11 +1,8 @@
 <div class="home">
-    <div class="newpost" (click)="toggleEditing()">
-      <div class="ifFalse" *ngIf="!isEditing">
+    <div class="newpost" id="newpost" (click)="toggleEditing(); changeDivContent()">
+      <div class="ifFalse">
         <div class="addimg">+</div>
         <div class="addtext">Add a new post</div>
-      </div>
-      <div *ngIf="isEditing">
-        <input type="text" class="newPostEntry" placeholder="Add a new post" (click)="$event.stopPropagation()">
       </div>
     </div>
 </div>
