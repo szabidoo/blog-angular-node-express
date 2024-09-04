@@ -1,6 +1,6 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -8,23 +8,25 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
+  private isAuthenticated = new BehaviorSubject<boolean>(false);
+  
+
   constructor(private router: Router) {}
 
-  private isAuthenticated = false;
-
   login() {
-    this.isAuthenticated = true;
-    console.log('Auth done')
-    this.router.navigate(['/home'])
+    this.isAuthenticated.next(true);
+    console.log('AuthService: User logged in, isAuthenticated:', this.isAuthenticated.getValue());
+    this.router.navigate(['/home']);
   }
 
   logout() {
-    this.isAuthenticated = false;
+    this.isAuthenticated.next(false);
+    console.log('AuthService: User logged out, isAuthenticated:', this.isAuthenticated.getValue());
   }
 
-  isLoggedIn(): boolean {
-    console.log("isLoggedIn called")
-    return this.isAuthenticated || !!sessionStorage.getItem("username");
+  isLoggedIn(): Observable<boolean> {
+    const loggedIn = this.isAuthenticated.getValue();
+    console.log('AuthService: Checking if user is logged in:', loggedIn);
+    return this.isAuthenticated.asObservable();
   }
-
 }

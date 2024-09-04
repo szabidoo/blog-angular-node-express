@@ -1,0 +1,21 @@
+li{
+    list-style-type: none;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+
+}
+
+.post{
+    display: flexbox;
+    width: 50%;
+    text-align: center;
+    justify-content: center;
+    height: fit-content;
+    outline: 2px dashed #ccc;
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+    padding: 10px;
+    color: blanchedalmond;
+}

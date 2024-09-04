@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   imports: [HttpClientModule, FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
-  providers: [ApiService, AuthService, AuthGuard]
+  providers: [ApiService]
 })
 export class LoginComponent {
 
@@ -40,9 +40,21 @@ export class LoginComponent {
         sessionStorage.setItem("username", this.active_user)
         this.authService.login()
         this.loginState = true
-        this.authService.isLoggedIn()
       }
       console.log(this.active_user)
     });
   }
+
+  
+
+  registerUser() {
+    const data = [this.username, this.password];
+    this.apiService.registerUser(data).subscribe(response => {
+      console.log("Registration sent!")
+      this.back_data = response
+      console.log(this.back_data)
+    })
+  }
+
+
 }

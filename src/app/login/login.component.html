@@ -7,7 +7,7 @@
             <input type="password" name="pw" id="pw" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"><br>
             <div class="buttons">
                 <button class="loginButton" (click)="sendData()">Login</button>
-                <button class="register">Register</button>
+                <button class="register" (click)="registerUser()">Register</button>
             </div>
         </form>
     </div>

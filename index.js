@@ -4,6 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const port = 3000;
 let state = false;
+let activeUser = '';
 
 // Connect to the database
 const db = new sqlite3.Database('./users.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -22,7 +23,7 @@ const postDB = new sqlite3.Database('./posts.db', sqlite3.OPEN_READWRITE, (err) 
 });
 
 // Create a posts table
-const createPostDB = `CREATE TABLE IF NOT EXISTS posts(id INTEGER PRIMARY KEY, content TEXT)`;
+const createPostDB = `CREATE TABLE IF NOT EXISTS posts(id INTEGER PRIMARY KEY, content TEXT, user TEXT)`;
 postDB.run(createPostDB, (err) => {
     if (err) {
         console.log("PostsDB table already exists.");
@@ -46,7 +47,26 @@ app.use(express.json()); // Use express.json() middleware to parse JSON data
 
 // GET endpoint to retrieve data from Angular app
 app.get('/api/data', (req, res) => {
-    res.json({ message: 'Hello from Express!' });
+    res.json({ message: 'Hello from Express!', data: state });
+});
+
+app.post('/api/register', (req, res) => {
+    const registerData = req.body.data;
+    let username = registerData[0]
+
+    db.get('SELECT name FROM users WHERE name = ?', username, (err, row) => {
+        if (!row){
+            db.run('INSERT INTO users(name, password) VALUES (?, ?)', [registerData[0], registerData[1]], (err) => {
+                if (err){
+                    console.log(err)
+                }
+                res.json({message: `Success registering ${username}`})
+            })
+        }
+        if(row){
+            console.log("Already registered!")
+        }
+    })
 });
 
 // POST endpoint to receive data from Angular app, LOGIN!!!
@@ -56,6 +76,7 @@ app.post('/api/data', (req, res) => {
     
     let sqlpw = 'SELECT password FROM users WHERE name = ?';
     let uname = receivedData[0];
+    activeUser = uname;
     let pw = receivedData[1];
 
     db.get(sqlpw, [uname], (err, row) => {
@@ -89,13 +110,13 @@ postDB.run('DELETE FROM posts WHERE content IS NULL OR content = ""', (err) => {
 app.post('/api/postdata', (req, res) => {
     const postdata = req.body.data;
     console.log(postdata);
-    const q = 'INSERT INTO posts(content) VALUES (?)';
+    const q = 'INSERT INTO posts(content, user) VALUES (?, ?)';
 
     if (postdata === '' || postdata === null || postdata === undefined) {
-        res.json({ message: `Success ${postdata}`, data: postdata });
+        res.json({ message: `Wrong ${postdata}`, data: postdata });
         return;
     } else {
-        postDB.run(q, [postdata], function(err) { // Pass postdata as an array
+        postDB.run(q, [postdata, activeUser], function(err) { // Pass postdata as an array
             if (err) {
                 res.status(400).json({ error: err.message });
                 return;
@@ -107,8 +128,9 @@ app.post('/api/postdata', (req, res) => {
     console.log('Post Data:', postdata); // Log the post data
 });
 
+//getPosts()
 app.get('/api/getposts', (req, res) => {
-    const query = 'SELECT content FROM posts';
+    const query = 'SELECT content, user FROM posts';
 
     postDB.all(query, [], (err, rows) => {
         if (err) {
@@ -116,8 +138,8 @@ app.get('/api/getposts', (req, res) => {
             return;
         }
         // Extract the content values from the rows
-        const contentList = rows.map(row => row.content);
-        res.json({ message: 'Success', data: contentList });
+        
+        res.json({ message: 'Success', data: rows});
     });
 });
 
