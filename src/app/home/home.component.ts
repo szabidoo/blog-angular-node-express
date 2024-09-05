@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
 import { BlogComponent } from '../blog/blog.component';
 import { NgFor, NgIf } from '@angular/common';
 import { ApiService } from '../api.service';
@@ -15,9 +15,13 @@ export class HomeComponent {
 
   @ViewChild(BlogComponent) blogComponent!: BlogComponent;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) {  }
+
+  isLoggedIn: boolean = false;
 
   isEditing: boolean = false;
+
+
 
   toggleEditing() {
     this.isEditing = !this.isEditing;

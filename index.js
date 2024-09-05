@@ -6,6 +6,9 @@ const port = 3000;
 let state = false;
 let activeUser = '';
 
+app.use(cors());
+app.use(express.json()); // Use express.json() middleware to parse JSON data
+
 // Connect to the database
 const db = new sqlite3.Database('./users.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -42,12 +45,21 @@ db.run(createDB, (err) => {
     }
 });
 
-app.use(cors());
-app.use(express.json()); // Use express.json() middleware to parse JSON data
-
 // GET endpoint to retrieve data from Angular app
 app.get('/api/data', (req, res) => {
     res.json({ message: 'Hello from Express!', data: state });
+});
+
+app.get('/api/logout', (req, res) => {
+    console.log('Received request to /api/logout');
+    state = false;
+    activeUser = ''
+    res.json({ message: "Logged out!", data: state });
+    console.log('State after logout:', state);
+});
+
+app.get('/api/loginstate', (req, res) => {
+    res.json({ data: state });
 });
 
 app.post('/api/register', (req, res) => {
@@ -97,7 +109,6 @@ app.post('/api/data', (req, res) => {
         }
     });
 });
-
 
 //delete all empty posts
 postDB.run('DELETE FROM posts WHERE content IS NULL OR content = ""', (err) => {

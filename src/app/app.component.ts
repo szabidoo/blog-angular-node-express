@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterOutlet, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -6,9 +6,13 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
-import { routes } from './app.routes';
 import { Observable } from 'rxjs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatIconModule } from '@angular/material/icon';
 import { OnInit } from '@angular/core';
+import { response } from 'express';
+import { isBuffer } from 'util';
+
 
 @Component({
   selector: 'app-root',
@@ -19,30 +23,42 @@ import { OnInit } from '@angular/core';
     RouterOutlet,
     LoginComponent,
     HomeComponent,
-    RouterModule
+    RouterModule,
+    MatSlideToggleModule,
+    MatIconModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [ApiService] // Ensure ApiService and AuthService are provided here
+  providers: [ApiService, AuthService] // Ensure ApiService and AuthService are provided here
 })
 export class AppComponent implements OnInit {
   title = 'blog';
   data: any;
-
-  ngOnInit(): void {
-    this.apiService.getLoginState()
-  }
-
   loginState$: Observable<boolean>;
 
   constructor(private router: Router, private apiService: ApiService, private authService: AuthService) {
-    this.router.resetConfig(routes)
     this.loginState$ = this.authService.isLoggedIn();
-  }
+  
+}
+
+ngOnInit() {
+  console.log(this.loginState$, " loginstate")
+  this.apiService.loginState().subscribe(response => {
+    if(response.data === false){
+      console.log(response)
+      this.router.navigate(['/login'])
+    }
+    else{ this.authService.login()}
+    console.log(response)
+  })
+}
 
   logout() {
-    this.authService.logout();
-    sessionStorage.removeItem("username");
-    this.router.navigate(['/login']);
+    console.log("Logout() called")
+    this.apiService.logout().subscribe(response => {
+      console.log("Logout response: ", response)
+    })
+    this.router.navigate(['/login'])
+    this.authService.logout()
   }
 }

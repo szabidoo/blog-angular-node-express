@@ -8,25 +8,23 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private isAuthenticated = new BehaviorSubject<boolean>(false);
+  isAuthenticated = new BehaviorSubject<boolean>(false);
   
-
-  constructor(private router: Router) {}
+  constructor(private router: Router) {  }
 
   login() {
     this.isAuthenticated.next(true);
-    console.log('AuthService: User logged in, isAuthenticated:', this.isAuthenticated.getValue());
     this.router.navigate(['/home']);
+    console.log("AuthService login() called, " + this.isAuthenticated.getValue())
   }
 
   logout() {
     this.isAuthenticated.next(false);
-    console.log('AuthService: User logged out, isAuthenticated:', this.isAuthenticated.getValue());
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): Observable<boolean> {
-    const loggedIn = this.isAuthenticated.getValue();
-    console.log('AuthService: Checking if user is logged in:', loggedIn);
+    console.log('AuthService: Checking if user is logged in:', this.isAuthenticated.getValue());
     return this.isAuthenticated.asObservable();
   }
 }

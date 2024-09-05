@@ -27,9 +27,7 @@ export class BlogComponent implements OnInit {
 
   getPosts() {
     this.apiService.getPosts().subscribe(response => {
-      console.log('GETPOSTS DATA IS: ', response);
       this.posts = response.data;
-      console.log(this.posts)
       
     }, error => {
       console.error('Error fetching posts', error);
