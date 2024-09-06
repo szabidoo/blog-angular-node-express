@@ -2,11 +2,16 @@
     <div class="newpost" id="newpost" (click)="toggleEditing(); changeDivContent()">
       <div class="ifFalse">
         <div class="addimg">+</div>
-        <div class="addtext">Add a new post</div>
+        <div class="addtext" style="color: white;">Add a new post</div>
       </div>
     </div>
 </div>
-<h2>Recent posts</h2>
+
+<h2 class="recent-posts">Recent posts</h2>
+<div class="divider" style="display: flex; justify-content: center;">
+  <mat-divider style="width: 90%; height: 5px;"></mat-divider>
+</div>
+
 <!-- Recent posts -->
-<app-blog></app-blog>
+<app-blog mat-dark-theme></app-blog>
 

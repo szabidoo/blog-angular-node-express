@@ -1,0 +1,21 @@
+
+li{
+    list-style-type: none;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+
+}
+
+.post{
+    color: white;
+}
+
+.mat-card-header{
+    color: white;
+    text-decoration: underline;
+}
+mat-card{
+    padding: 30px;
+    margin: 20px;
+}

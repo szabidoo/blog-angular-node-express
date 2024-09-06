@@ -1,10 +1,10 @@
 <div class="base" *ngIf="loginState$ | async"> 
-  <div class="logout" (click)="logout()">Logout</div> 
+  <div class="logout" (click)="logout()">Logout <mat-icon>logout</mat-icon></div> 
   <nav class="navbar">
-    <ul>
-      <li><a routerLink="/home">Home</a></li>
-      <li><a routerLink="/profile">Profile</a></li>
-      <li><a routerLink="/settings">Settings</a></li>
+    <ul style="color: white;">
+      <li><a routerLink="/home">Home</a><mat-icon>home</mat-icon></li>
+      <li><a routerLink="/profile">Profile</a><mat-icon>person</mat-icon></li>
+      <li><a routerLink="/settings">Settings</a><mat-icon>settings</mat-icon></li>
     </ul>
   </nav>
 </div>

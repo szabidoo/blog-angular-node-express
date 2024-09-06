@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,8 +10,6 @@ import { Observable } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { OnInit } from '@angular/core';
-import { response } from 'express';
-import { isBuffer } from 'util';
 
 
 @Component({
@@ -25,10 +23,11 @@ import { isBuffer } from 'util';
     HomeComponent,
     RouterModule,
     MatSlideToggleModule,
-    MatIconModule
+    MatIconModule,
+
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   providers: [ApiService, AuthService] // Ensure ApiService and AuthService are provided here
 })
 export class AppComponent implements OnInit {

@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+$BGCOLOR: rgba(41, 40, 40, 0.41);
+$FONTFAMILY: Roboto, "Helvetica Neue", sans-serif;
+
+html {
+    min-height: 100%;
+    height: 100%;
+    background-color: $BGCOLOR;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+
+
+body {
+    min-height: 100%;
+    margin: 0;
+    font-family: $FONTFAMILY;
+    background-color: $BGCOLOR;
+}
+
+.mat-typography{
+    min-height: 100%;
+    height: auto;
+}

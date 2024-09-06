@@ -2,13 +2,17 @@ import { Component, ViewChild} from '@angular/core';
 import { BlogComponent } from '../blog/blog.component';
 import { NgFor, NgIf } from '@angular/common';
 import { ApiService } from '../api.service';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [BlogComponent, NgFor, NgIf],
+  imports: [BlogComponent, NgFor, NgIf, MatInput, MatButton, MatDividerModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  styleUrl: './home.component.scss',
   providers: [BlogComponent]
 })
 export class HomeComponent {
@@ -33,7 +37,7 @@ export class HomeComponent {
       div.addEventListener('click', () => {
         if (!div.innerHTML.includes('addPostArea')) {
           div.innerHTML = `<textarea id="addPostArea" rows="10" cols="100" spellcheck="false" placeholder="Write your post here"></textarea>
-          <button id="submit">Submit</button>`;
+          <button mat-flat-button class="mat-primary" id="submit">Submit</button>`;
           div.style.transition = 'all 0.5s ease';
           div.style.width = '100%';
           const addPostArea = document.getElementById('addPostArea') as HTMLTextAreaElement;

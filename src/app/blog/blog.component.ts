@@ -3,14 +3,15 @@ import { NgFor, NgIf } from '@angular/common';
 import { ApiService } from '../api.service';
 import { OnInit } from '@angular/core';
 import { ReversePipe } from './reverse.pipe';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [NgFor, NgIf, ReversePipe],
+  imports: [NgFor, NgIf, ReversePipe, MatCardModule],
   providers: [ApiService],
   templateUrl: './blog.component.html',
-  styleUrl: './blog.component.css'
+  styleUrl: './blog.component.scss'
 })
 export class BlogComponent implements OnInit {
 

@@ -1,29 +1,29 @@
-
-.loginpage{
-    justify-content: center;
+.loginpage {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: white;
     font-weight: bold;
 }
+
 .login {
     justify-content: center;
-    border: 1px solid black;
     border-radius: 20px;
     padding: 20px;
     width: 20%;
-    background: lightcoral;
 }
 
-input{
+input {
     width: 95%;
 }
 
-button.login{
+button.login {
     display: flex;
     vertical-align: middle;
 }
 
-form.loginForm{
+.loginForm {
     display: flex;
     margin: 1px;
     padding: 1px;
@@ -32,14 +32,13 @@ form.loginForm{
     align-items: center;
 }
 
-form.loginForm .buttons{
+.loginForm .buttons {
     display: flex;
     justify-content: space-around;
     width: 100%;
 }
 
-form.loginForm .buttons button{
+.loginForm .buttons button {
     border-radius: 10px;
-    border: 1px solid black;
     cursor: pointer;
 }

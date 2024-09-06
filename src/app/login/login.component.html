@@ -1,13 +1,13 @@
 <div class="loginpage">
-    <div class="login">
-        <mat-form-field class="loginForm">
+    <div class="login mat-primary">
+        <mat-form-field class="loginForm mat-primary">
             <label for="uname">Username:</label><br>
             <input matInput type="text" name="uname" id="uname" placeholder="Username" [(ngModel)]="username" [ngModelOptions]="{standalone: true}"><br>
             <label for="pw">Password:</label><br>
             <input matInput type="password" name="pw" id="pw" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"><br>
             <div class="buttons">
-                <button class="loginButton" (click)="login()">Login</button>
-                <button class="register" (click)="registerUser()">Register</button>
+                <button class="loginButton mat-primary" mat-flat-button (click)="login()">Login</button>
+                <button class="register mat-primary" mat-flat-button (click)="registerUser()">Register</button>
             </div>
         </mat-form-field>
     </div>
