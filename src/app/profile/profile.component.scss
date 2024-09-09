@@ -42,3 +42,20 @@
     overflow-wrap: break-word;
     word-break: break-word;
 }
+
+@media screen and (max-width: 768px) {
+    .usersPosts {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        margin-bottom: 10px;
+    }
+
+    .userPostCard {
+        padding: 8px;
+    }
+
+    .longPost {
+        grid-column: span 2;
+        grid-row: span 10;
+    }
+    
+}

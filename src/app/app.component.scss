@@ -1,7 +1,6 @@
-.img{
+.img {
     padding-right: 10px;
 }
-
 
 .base {
     display: flex;
@@ -14,8 +13,8 @@
 nav.navbar {
     position: fixed;
     display: flex;
-    justify-content: center; /* Center the ul horizontally */
-    align-items: center; /* Center the ul vertically */
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
     width: 30%;
     margin: 0;
@@ -28,13 +27,21 @@ nav.navbar {
     height: 30px;
     z-index: 1000;
     top: 10px;
+    transition: height 0.3s ease, width 0.3s ease;
+}
+
+nav.navbar.expanded {
+    height: auto;
+    width: 90%;
+    flex-direction: column;
+    padding: 10px;
 }
 
 ul {
     display: flex;
-    justify-content: space-around; /* Space items around */
-    align-items: center; /* Center items vertically */
-    width: 100%; /* Ensure ul takes full width of nav */
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
     margin: 0;
     padding: 0;
 }
@@ -43,31 +50,75 @@ li {
     list-style: none;
     display: flex;
 }
-.space{
+
+.space {
     height: 70px;
 }
 
-a{
+a {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-.logout{
+.logout {
     width: fit-content;
     display: flex;
-    position: fixed;
-    right: 50px;
-    top: 10px;
-    height: 30px;
     cursor: pointer;
     font-weight: bold;
-    color: rgb(208, 208, 208);
+    color: white;
     padding: 5px;
 }
 
-.logout mat-icon{
+.logout mat-icon {
     display: flex;
     padding-left: 10px;
 }
 
+.navbar-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: rgb(208, 208, 208);
+}
 
+@media (min-width: 768px) {
+    nav.navbar.expanded {
+        height: fit-content;
+    }
+}
+
+@media (max-width: 768px) {
+    nav.navbar {
+        width: 80%;
+        height: auto;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    .logout {
+        right: 10px;
+        top: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    nav.navbar {
+        width: 90%;
+        padding: 5px;
+    }
+
+    .logout {
+        right: 5px;
+        top: 60px;
+    }
+}

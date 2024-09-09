@@ -1,10 +1,11 @@
-<div class="base" *ngIf="loginState$ | async"> 
-  <div class="logout" (click)="logout()">Logout <mat-icon>logout</mat-icon></div> 
-  <nav class="navbar">
-    <ul style="color: white;">
+<div class="base" *ngIf="loginState$ | async">
+  <nav class="navbar" [ngClass]="{'expanded': isNavbarExpanded}">
+    <button class="navbar-toggle" (click)="toggleNavbar()">☰</button>
+    <ul *ngIf="isNavbarExpanded" style="color: white;">
       <li><a routerLink="/home">Home</a><mat-icon>home</mat-icon></li>
       <li><a routerLink="/profile">Profile</a><mat-icon>person</mat-icon></li>
       <li><a routerLink="/settings">Settings</a><mat-icon>settings</mat-icon></li>
+      <li class="logout" (click)="logout()">Logout <mat-icon>logout</mat-icon></li>
     </ul>
   </nav>
 </div>

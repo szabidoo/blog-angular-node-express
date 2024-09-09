@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterOutlet, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   title = 'blog';
   data: any;
   loginState$: Observable<boolean>;
+  isNavbarExpanded: boolean = false;
 
   constructor(private router: Router, private apiService: ApiService, private authService: AuthService) {
     this.loginState$ = this.authService.isLoggedIn();
@@ -51,6 +52,21 @@ ngOnInit() {
     console.log(response)
   })
 }
+
+@HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const clickedInsideNavbar = target.closest('.navbar') !== null;
+    const clickedNavbarItem = target.closest('.navbar ul li') !== null;
+    if (!clickedInsideNavbar || clickedNavbarItem) {
+      this.isNavbarExpanded = false;
+    }
+  }
+
+toggleNavbar() {
+  this.isNavbarExpanded = !this.isNavbarExpanded;
+}
+
 
   logout() {
     console.log("Logout() called")
