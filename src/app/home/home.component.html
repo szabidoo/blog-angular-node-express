@@ -1,10 +1,14 @@
 <div class="home">
-    <div class="newpost" id="newpost" (click)="toggleEditing(); changeDivContent()">
-      <div class="ifFalse">
-        <div class="addimg">+</div>
-        <div class="addtext" style="color: white;">Add a new post</div>
-      </div>
+  <div class="newpost" id="newpost" [ngClass]="{'expanded': isPostAreaVisible}" (click)="showPostArea()">
+    <div class="ifFalse" *ngIf="!isPostAreaVisible">
+      <div class="addimg">+</div>
+      <div class="addtext" style="color: white;">Add a new post</div>
     </div>
+    <div *ngIf="isPostAreaVisible" [@postAreaState]="isPostAreaVisible ? 'visible' : 'hidden'" class="post-area">
+      <textarea matInput id="addPostArea" #addPostArea rows="10" cols="100" spellcheck="false" placeholder="Write your post here" [(ngModel)]="postContent"></textarea>
+      <button mat-flat-button class="mat-primary" (click)="submitPost($event)">Submit</button>
+    </div>
+  </div>
 </div>
 
 <h2 class="recent-posts">Recent posts</h2>
@@ -14,4 +18,3 @@
 
 <!-- Recent posts -->
 <app-blog mat-dark-theme></app-blog>
-

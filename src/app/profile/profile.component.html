@@ -1,1 +1,18 @@
-<p>profile works!</p>
+<div class="profilePage">
+    <mat-card class="userCard" appearance="outlined" style="color: white;">
+        <mat-card-header style="justify-content: center;">
+            <mat-card-title>{{ ACTIVE_USER }} </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>ASDASD</mat-card-content>
+    </mat-card>
+
+    <div class="usersPosts">
+        <mat-card *ngFor="let post of userPosts" 
+                  class="userPostCard" 
+                  [ngClass]="{ 'longPost': post.content.length > 200 }">
+            {{ post.content }} 
+        </mat-card>
+    </div>
+</div>
+
+

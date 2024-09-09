@@ -2,6 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%; /* Ensure it takes full width */
+    height: 100%; /* Ensure it takes full height */
 }
 
 .newpost {
@@ -11,10 +13,14 @@
     align-items: center;
     width: 600px; /* Smaller width */
     height: 200px; /* Smaller height */
-    border: 2px dashed #ccc;
     border-radius: 10px;
     cursor: pointer;
     transition: width 0.3s ease, height 0.3s ease; /* Added width and height transition */
+}
+
+.newpost.expanded {
+    width: 90%; /* Expand to full width */
+    height: auto; /* Adjust height based on content */
 }
 
 .addimg {
@@ -42,7 +48,36 @@
     transition: width 0.3s ease, height 0.3s ease; /* Added width and height transition */
 }
 
-.recent-posts{
+.post-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    transition: all 0.5s ease;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    width: 100%; /* Ensure it takes full width */
+    max-width: 600px; /* Limit the maximum width */
+    font-family: Arial, sans-serif;
+    margin-bottom: 16px; /* Space between textarea and button */
+    resize: none;
+    border-radius: 5px;    
+}
+
+button {
+    align-self: center; /* Align button to the center */
+}
+
+.recent-posts {
     color: white;
     display: flex;
     justify-content: center;

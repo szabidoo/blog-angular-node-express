@@ -1,84 +1,86 @@
-import { Component, ViewChild} from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { BlogComponent } from '../blog/blog.component';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, CommonModule } from '@angular/common'; // Import CommonModule
 import { ApiService } from '../api.service';
-import { MatInput } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
-import {MatDividerModule} from '@angular/material/divider';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [BlogComponent, NgFor, NgIf, MatInput, MatButton, MatDividerModule],
+  imports: [BlogComponent, NgFor, NgIf, CommonModule, MatInputModule, MatButtonModule, MatDividerModule, FormsModule], // Add CommonModule to imports
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
-  providers: [BlogComponent]
+  styleUrls: ['./home.component.scss'],
+  providers: [BlogComponent],
+  animations: [
+    trigger('postAreaState', [
+      state('hidden', style({
+        width: '0',
+        opacity: 0
+      })),
+      state('visible', style({
+        width: '100%',
+        opacity: 1
+      })),
+      transition('hidden => visible', [
+        animate('0.5s ease')
+      ]),
+      transition('visible => hidden', [
+        animate('0.5s ease')
+      ])
+    ])
+  ]
 })
 export class HomeComponent {
 
   @ViewChild(BlogComponent) blogComponent!: BlogComponent;
+  @ViewChild('addPostArea') addPostArea!: ElementRef; // Reference to the textarea
 
-  constructor(private apiService: ApiService) {  }
+  constructor(private apiService: ApiService) { }
 
   isLoggedIn: boolean = false;
-
   isEditing: boolean = false;
-
-
+  isPostAreaVisible: boolean = false;
+  postContent: string = '';
 
   toggleEditing() {
     this.isEditing = !this.isEditing;
   }
 
-  changeDivContent() {
-    const div = document.getElementById('newpost');
-    if (div) {
-      div.addEventListener('click', () => {
-        if (!div.innerHTML.includes('addPostArea')) {
-          div.innerHTML = `<textarea id="addPostArea" rows="10" cols="100" spellcheck="false" placeholder="Write your post here"></textarea>
-          <button mat-flat-button class="mat-primary" id="submit">Submit</button>`;
-          div.style.transition = 'all 0.5s ease';
-          div.style.width = '100%';
-          const addPostArea = document.getElementById('addPostArea') as HTMLTextAreaElement;
-          addPostArea.focus();
-          addPostArea.style.fontFamily = 'Arial, sans-serif';
-  
-          const submitButton = document.getElementById('submit') as HTMLButtonElement;
-          if (submitButton) {
-            submitButton.addEventListener('click', (event) => {
-              event.stopPropagation();
-              this.createPost();
-              addPostArea.value = '';
-            });
-          }
-        }
-      });
+  showPostArea() {
+    if (!this.isPostAreaVisible) {
+      this.isPostAreaVisible = true;
+      setTimeout(() => {
+        this.addPostArea.nativeElement.focus(); // Focus the textarea
+      }, 200);
     }
   }
 
-  createPost() {
-    const addPostArea = document.getElementById('addPostArea') as HTMLTextAreaElement;
+  submitPost(event: Event) {
+    event.stopPropagation();
+    this.createPost();
+    this.postContent = '';
+    this.isPostAreaVisible = false;
+  }
 
-    if (!addPostArea) {
-      console.error('Add Post Area not found');
+  createPost() {
+    if (this.postContent === undefined || this.postContent === null || this.postContent.trim() === '') {
+      console.log('Not postable');
       return;
     }
-    const post = addPostArea.value;
-    console.log(post);
-    if (post === undefined || post === null) {
-      console.log('Not postable');
-    } else {
-      this.apiService.createPost(post).subscribe({
-        next: (response) => {
-          console.log('Post added!');
-          console.log(response);
-          this.blogComponent.getPosts(); // Refresh BlogComponent
-        },
-        error: (error) => {
-          console.error('Error adding post:', error);
-        }
-      });
-    }
+
+    this.apiService.createPost(this.postContent).subscribe({
+      next: (response) => {
+        console.log('Post added!');
+        console.log(response);
+        this.blogComponent.getPosts(); // Refresh BlogComponent
+      },
+      error: (error) => {
+        console.error('Error adding post:', error);
+      }
+    });
   }
 }
