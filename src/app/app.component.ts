@@ -1,15 +1,13 @@
-import { Component, HostListener } from '@angular/core';
-import { RouterOutlet, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
+import { Component, HostListener } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatIconModule } from '@angular/material/icon';
-import { OnInit } from '@angular/core';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 
 
 @Component({
@@ -28,32 +26,19 @@ import { OnInit } from '@angular/core';
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [ApiService, AuthService] // Ensure ApiService and AuthService are provided here
+  /*
+    Töröltem a providers tömböt. Ha egy service-nek a dekorátorában szerepel a
+    providedIn: 'root', akkor azt mindenféle angular-os képződmény (service, component stb.) lát,
+    így felesleges itt külön provide-olni (további magyarázat: app.config.ts-ben).
+  */
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'blog';
-  data: any;
-  loginState$: Observable<boolean>;
   isNavbarExpanded: boolean = false;
 
-  constructor(private router: Router, private apiService: ApiService, private authService: AuthService) {
-    this.loginState$ = this.authService.isLoggedIn();
-  
-}
+  constructor(private router: Router, private apiService: ApiService, private authService: AuthService) {}
 
-ngOnInit() {
-  console.log(this.loginState$, " loginstate")
-  this.apiService.loginState().subscribe(response => {
-    if(response.data === false){
-      console.log(response)
-      this.router.navigate(['/login'])
-    }
-    else{ this.authService.login()}
-    console.log(response)
-  })
-}
-
-@HostListener('document:click', ['$event'])
+  @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
     const target = event.target as HTMLElement;
     const clickedInsideNavbar = target.closest('.navbar') !== null;
@@ -63,17 +48,13 @@ ngOnInit() {
     }
   }
 
-toggleNavbar() {
-  this.isNavbarExpanded = !this.isNavbarExpanded;
-}
-
+  toggleNavbar() {
+    this.isNavbarExpanded = !this.isNavbarExpanded;
+  }
 
   logout() {
-    console.log("Logout() called")
-    this.apiService.logout().subscribe(response => {
-      console.log("Logout response: ", response)
-    })
-    this.router.navigate(['/login'])
-    this.authService.logout()
+    this.authService.logout$().subscribe(response => {
+      this.router.navigate(['/login']);
+    });
   }
 }

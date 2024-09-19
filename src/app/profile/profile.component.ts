@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
+import { CommonModule, NgFor } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ApiService } from '../api.service';
-import { OnInit } from '@angular/core';
-import { NgFor } from '@angular/common';
-import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -29,7 +27,7 @@ export class ProfileComponent implements OnInit{
 
 
   getUserPosts(){
-    this.apiService.getPosts().subscribe(response => {
+    this.apiService.getPosts$().subscribe(response => {
       this.userPosts = response.data.filter((post:{content: string, user: string}) => post.user === this.ACTIVE_USER)
     })
   }

@@ -46,11 +46,11 @@ db.run(createDB, (err) => {
 });
 
 // GET endpoint to retrieve data from Angular app
-app.get('/api/data', (req, res) => {
+app.get('/api/login', (req, res) => {
     res.json({ message: 'Hello from Express!', data: state });
 });
 
-app.get('/api/logout', (req, res) => {
+app.post('/api/logout', (req, res) => {
     console.log('Received request to /api/logout');
     state = false;
     activeUser = ''
@@ -64,11 +64,12 @@ app.get('/api/loginstate', (req, res) => {
 
 app.post('/api/register', (req, res) => {
     const registerData = req.body.data;
-    let username = registerData[0]
+    let username = registerData.username
+    let password = registerData.password
 
     db.get('SELECT name FROM users WHERE name = ?', username, (err, row) => {
         if (!row){
-            db.run('INSERT INTO users(name, password) VALUES (?, ?)', [registerData[0], registerData[1]], (err) => {
+            db.run('INSERT INTO users(name, password) VALUES (?, ?)', [username, password], (err) => {
                 if (err){
                     console.log(err)
                 }
@@ -77,19 +78,21 @@ app.post('/api/register', (req, res) => {
         }
         if(row){
             console.log("Already registered!")
+            res.status(409).json({ message: 'User already exists' });
         }
     })
 });
 
 // POST endpoint to receive data from Angular app, LOGIN!!!
-app.post('/api/data', (req, res) => {
+app.post('/api/login', (req, res) => {
     const receivedData = req.body.data; // Data from sendData() - login.component
     console.log('Data received from Angular app:', receivedData); // node console log
     
     let sqlpw = 'SELECT password FROM users WHERE name = ?';
-    let uname = receivedData[0];
+    console.log(receivedData); 
+    let uname = receivedData.username;
     activeUser = uname;
-    let pw = receivedData[1];
+    let pw = receivedData.password;
 
     db.get(sqlpw, [uname], (err, row) => {
         if (err) {
