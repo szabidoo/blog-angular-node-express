@@ -1,4 +1,4 @@
-<div class="base" *ngIf="loginState$ | async">
+<div class="base">
   <nav class="navbar" [ngClass]="{'expanded': isNavbarExpanded}">
     <button class="navbar-toggle" (click)="toggleNavbar()">☰</button>
     <ul *ngIf="isNavbarExpanded" style="color: white;">

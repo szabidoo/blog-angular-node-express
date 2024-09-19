@@ -1,15 +1,13 @@
-import { Component } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { ApiService } from '../api.service';
-import { OnInit } from '@angular/core';
 import { ReversePipe } from './reverse.pipe';
-import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
   imports: [NgFor, NgIf, ReversePipe, MatCardModule],
-  providers: [ApiService],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss'
 })
@@ -27,7 +25,7 @@ export class BlogComponent implements OnInit {
   }
 
   getPosts() {
-    this.apiService.getPosts().subscribe(response => {
+    this.apiService.getPosts$().subscribe(response => {
       this.posts = response.data;
       
     }, error => {

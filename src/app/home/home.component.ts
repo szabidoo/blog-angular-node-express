@@ -1,12 +1,12 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { BlogComponent } from '../blog/blog.component';
-import { NgFor, NgIf, CommonModule } from '@angular/common'; // Import CommonModule
-import { ApiService } from '../api.service';
-import { MatInputModule } from '@angular/material/input';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CommonModule, NgFor, NgIf } from '@angular/common'; // Import CommonModule
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { MatInputModule } from '@angular/material/input';
+import { ApiService } from '../api.service';
+import { BlogComponent } from '../blog/blog.component';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,6 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   imports: [BlogComponent, NgFor, NgIf, CommonModule, MatInputModule, MatButtonModule, MatDividerModule, FormsModule], // Add CommonModule to imports
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [BlogComponent],
   animations: [
     trigger('postAreaState', [
       state('hidden', style({
@@ -72,7 +71,7 @@ export class HomeComponent {
       return;
     }
 
-    this.apiService.createPost(this.postContent).subscribe({
+    this.apiService.createPost$(this.postContent).subscribe({
       next: (response) => {
         console.log('Post added!');
         console.log(response);
